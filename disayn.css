@@ -310,6 +310,7 @@
       background: none;
       padding: 20px;
       border-radius: 10px;
+    font-family: 'Poppins';
     }
 
     .question {
@@ -379,6 +380,7 @@
         height: 100vh;
         overflow: scroll;
         scrollbar-width: none;
+        font-family: 'Poppins';
     }
 
     .kontinir{
@@ -386,6 +388,7 @@
       padding: 2%;
       margin-bottom: 7px;
       font-family: 'Poppins';
+        
     }
 
     #yourScore{
@@ -618,3 +621,4 @@
     }
 
 }
+
