@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>jQuery Quiz — Blur / Hide Flow</title>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+
+    .quiz-wrap {
+      width: 500px;
+      margin: auto;
+      background: #149edd;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #0002;
+    }
+
+    #timer {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: white;
+      text-align: center;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: none;
+      transition: 0.3s;
+    }
+
+    .hidden { display: none; }
+    .blurred { filter: blur(3px); pointer-events: none; }
+
+    .choice {
+      padding: 10px;
+      margin: 8px 0;
+      background: #6fa5ec;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .choice.selected {
+      background: #4caf50;
+      color: white;
+    }
+
+    .btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .secondary {
+      background: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="quiz-wrap">
+    <h2>15-Question Quiz (jQuery)</h2>
+    <div id="timer">Time Left: 60s</div>
+
+    <div id="questionsContainer"></div>
+    <div id="resultArea"></div>
+  </div>
+
+  <script>
+    $(function(){
+
+      const questionList = [
+        { q:"What does HTML stand for?", 
+        c:["HyperText Markup Language","Hyper Trainer Marking Language","HighText Machine Learning"], a:0 },
+        
+        { q:"What does CSS control?", 
+        c:["Page styling","Server settings","Database management"], a:0 },
+        
+        { q:"Which tag creates a hyperlink?", 
+        c:["<a>","<link>","<href>"], a:0 },
+        
+        { q:"Which CSS property changes text color?", 
+        c:["color","text-style","font-color"], a:0 },
+        
+        { q:"Which symbol starts an ID selector in CSS?", 
+        c:["#",".","@"], a:0 },
+
+        { q:"Which language adds interactivity to webpages?", 
+        c:["JavaScript","HTML","CSS"], a:0 },
+
+        { q:"How do you write a JS alert?", 
+        c:["alert('Hi');","msg('Hi');","popup('Hi');"], a:0 },
+
+        { q:"What is jQuery?", c:["A JavaScript library","A database engine","A CSS framework"], a:0 },
+        { q:"Which symbol selects a class in jQuery?", c:["$('.class')","$('#class')","$('class')"], a:0 },
+        { q:"How to hide an element in jQuery?", c:["$(el).hide()","$(el).none()","$(el).invisible()"], a:0 },
+        { q:"Which CSS property sets background color?", c:["background-color","bg","color-bg"], a:0 },
+        { q:"Which HTML tag inserts an image?", c:["<img>","<pic>","<image>"], a:0 },
+        { q:"Which JS function logs output to console?", c:["console.log()","print()","echo()"], a:0 },
+        { q:"How to fade an element in jQuery?", c:["$(el).fadeIn()","$(el).light()","$(el).showSlow()"], a:0 },
+        { q:"Which CSS property controls text size?", c:["font-size","text-size","size-font"], a:0 }
+      ];
+
+      const answers = {};
+
+      // Generate HTML questions
+      questionList.forEach((item, i)=>{
+        let idx = i+1;
+        let choicesHTML = item.c.map((ch,ci)=>`<div class="choice" data-choice='${ci}'>${ch}</div>`).join("");
+
+
+        $("#questionsContainer").append(`
+          <div class='question ${idx===1?"":"blurred"} ${idx>1?"hidden":""}' id='q${idx}' data-index='${idx}'>
+            <div class='q-meta'>Question ${idx} of 15</div>
+            <div class='q-text'>${item.q}</div>
+            <div class='choices'>${choicesHTML}</div>
+            <div class='controls'>
+              <button class='btn secondary backBtn' data-go='${idx-1}' ${idx===1?"disabled":''}>Back</button>
+            </div>
+          </div>
+        `);
+      });
+
+      // Selecting a choice + auto next
+      $(document).on('click','.choice',function(){
+        const $c = $(this);
+        const $q = $c.closest('.question');
+
+        $q.find('.choice').removeClass('selected');
+        $c.addClass('selected');
+
+        let current = $q.data('index');
+        answers[current] = parseInt($c.data('choice'));
+
+        // Auto-next after 300ms
+        setTimeout(()=>{
+          if(current < questionList.length){
+            showQuestion(current + 1);
+          } else {
+            finishQuiz();
+          }
+        }, 300);
+      });
+
+      function showQuestion(n){
+        let total = questionList.length;
+
+        for(let i=1;i<=total;i++){
+          let q = $(`#q${i}`);
+          q.removeClass('hidden blurred');
+        }
+
+        for(let i=1;i<=total;i++){
+          if(i < n) $(`#q${i}`).addClass('hidden');
+          if(i === n) $(`#q${i}`).removeClass('hidden');
+          if(i > n) $(`#q${i}`).addClass('blurred');
+        }
+
+        if(n === total){
+          $(`#q${total-1}`).addClass('blurred');
+        }
+      }
+
+      // Back button
+      $(document).on('click','.backBtn',function(){
+        let go = parseInt($(this).data('go'));
+        if(go >= 1) showQuestion(go);
+      });
+
+      // Retry button
+      $(document).on('click','#retry',function(){ location.reload(); });
+
+      // Timer
+      let timeLeft = 60; // seconds
+      let timer = setInterval(()=>{
+        timeLeft--;
+        $("#timer").text("Time Left: " + timeLeft + "s");
+        if(timeLeft <= 0){
+          clearInterval(timer);
+          finishQuiz();
+        }
+      },1000);
+
+      // Finish Quiz
+      function finishQuiz(){
+        clearInterval(timer);
+        let score = 0;
+        let msg = "";
+
+        questionList.forEach((q,i)=>{
+          let idx = i+1;
+          let sel = answers[idx];
+          let correct = q.a;
+          if(sel === correct) score++;
+          msg += `<div>Q${idx}: ${sel===undefined?"No answer":q.c[sel]} — ${sel===correct?"<span style='color:green'>Correct</span>":"<span style='color:red'>Wrong</span>"}</div>`;
+        });
+
+        $('#resultArea').html(`
+          <div class='result'>
+            <h3>Your Score: ${score} / ${questionList.length}</h3>
+            ${msg}
+            <button class='btn' id='retry'>Retry</button>
+          </div>
+        `);
+
+        $(".question").hide(); // hide all questions
+      }
+
+      showQuestion(1);
+
+    });
+  </script>
+
+</body>
+</html>

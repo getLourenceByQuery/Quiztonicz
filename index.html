@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="icon" href="favicon.jpg">
+    <link rel="stylesheet" href="disayn.css">
+    <title>Quiztonicz</title>
+</head>
+<body>
+    
+    <section id="quizField">
+
+        <div id="logoContainer">
+            <img src="Quiztonics.png" alt="" class="logo">
+            <img src="LogoTXT.png" alt="" class="logo">
+        </div>
+
+        <div id="menu">
+
+            <div id="logoCon">
+                <img src="Quiztonics.png" id="menuLogo" class="menuImg">
+                <img src="LogoTXT.png" id="menuTxt" class="menuImg">
+            </div>
+
+            <button id="readme"><p>READ ME</p></button>
+
+            <div id="readmePop">
+                <div id="readmeContent">
+                    
+                        <p class="readmeTxt">
+                            The important functions for our IT Elective Dynamic Quiz project have been completed and are working properly. 
+                            We have successfully used jQuery to manage the user interface, allowing certain parts of the page to be 
+                            dynamically hidden and shown.
+                        </p>
+                        <p class="readmeTxt">
+                            However, some feature like the "Categories" is not yet functional. If you click any of the categories it will
+                            take you on the same quiz. hehe 
+                        </p>
+                        <p class="readmeTxt">
+                            -lourence
+                        </p>
+                    
+                        <h2 class="aboutTxt">About Quiztonics</h2>
+                        <p class="aboutTxt">Quiztonics was developed for our IT elective subject to apply our lesson about jquery.</p>
+
+                        <h2 class="aboutTxt">Development Team</h2>
+
+                        <p class="aboutTxt">Lourence Lorejas (Programmer): Core developer responsible for implementing the quiz logic and interface using HTML, CSS, and JavaScript.</p>
+
+                        <p class="aboutTxt">Marlon Ong (Project Manager): Managed the project structure, timelines, milestones, and curated the overall direction of the final product.</p>
+
+                        <p class="aboutTxt">Miguelito Depaz (Concept & Design Lead): Contributed foundational game concepts and provided critical input on the aesthetic and functional design of the user interface (UI).</p>
+                    
+                        <button id="close">X</button>
+
+                </div>
+            </div>
+
+            <button id="about"><p>ABOUT US</p></button>
+
+            <div id="btnContainer">
+
+
+                <button class="btn">
+                    <img src="tech.png" alt="" class="btnImg">
+                    <p class="btnTxt">TECHNOLOGY</p>
+                </button>
+
+                <button class="btn">
+                    <img src="history.png" alt="" class="btnImg">
+                    <p class="btnTxt">HISTORY</p>
+                </button>
+
+                <button class="btn">
+                    <img src="arts.png" alt="" class="btnImg">
+                    <p class="btnTxt">ARTS</p>
+                </button>
+
+                <button class="btn-1" id="addCat">
+                    <h1>+</h1>
+                </button>
+
+            </div>
+
+            <button id="start"><p>START</p></button>
+
+        </div>
+
+
+
+
+    </section>
+
+    <section id="mainQuiz">   
+        
+        
+    <div class="quiz-wrap">
+        <div id="questionsContainer"></div>
+        <div id="resultArea"></div>
+    </div>
+
+    </section>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
