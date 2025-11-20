@@ -462,6 +462,10 @@
 
     .menuImg {
         width: 4rem; 
+        position: absolute;
+        top: 7%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     #readme, #about {
@@ -490,8 +494,10 @@
     #btnContainer {
         width: 90%;
         height: auto;
-        position: static;
-        transform: none;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         flex-direction: column;
         gap: 1.5rem; 
         margin-top: 60px;
@@ -531,8 +537,10 @@
     
     /* Start Button */
     #start {
-        position: static; 
-        transform: none;
+        position: absolute; 
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 80%;
         height: 50px;
         font-size: 1.2em;
@@ -622,5 +630,6 @@
     }
 
 }
+
 
 
